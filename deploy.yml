@@ -1,0 +1,13 @@
+---
+ - hosts: web
+   remote_user: root
+   vars:
+     site: tty8747.devops.srwx.net
+   roles:
+     - aptUpdate
+     - nginx 
+     - php-fpm
+     - letsencrypt
+     - calcFrontHtml
+     - calcSumGo
+     - calcDiffPhp
