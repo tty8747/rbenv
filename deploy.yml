@@ -1,13 +1,22 @@
 ---
- - hosts: web
-   remote_user: root
-   vars:
-     site: tty8747.devops.srwx.net
-   roles:
-     - aptUpdate
-     - nginx 
-     - php-fpm
-     - letsencrypt
-     - calcFrontHtml
-     - calcSumGo
-     - calcDiffPhp
+- hosts: web
+  remote_user: goto
+  become: yes
+  become_user: root
+  become_method: sudo
+
+  vars:
+    site: tty8747.devops.srwx.net
+    when: ansible_nodename == "tty8747.devops.srwx.net"
+    site: goapp.aaaj.ru
+    when: ansible_nodename == "goapp.aaaj.ru"
+    site: go.aaaj.ru
+    when: ansible_nodename == "go.aaaj.ru"
+  roles:
+    - aptUpdate
+#   - nginx 
+#   - letsencrypt
+#   - php-fpm
+#   - calcFrontHtml
+#   - calcSumGo
+#   - calcDiffPhp

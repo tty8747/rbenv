@@ -1,5 +1,6 @@
 ---
  - name: Update cache
    apt:
-     update_cache: {{ update_cache }}
-     cache_valid_time: {{ cache_valid_time }}
+     update_cache: "{{ update_cache }}"
+     cache_valid_time: "{{ cache_valid_time }}"
+   notify: Send slack notification
