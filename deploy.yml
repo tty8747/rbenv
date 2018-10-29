@@ -12,7 +12,7 @@
     phpFpmListen: "/run/php/php7.0-fpm.sock"
 
     locationPhpFpmApp: "/api/diff/"
-    locallocationPhpFpmApp: "/srv/phpapp/diff.php"
+    locallocationPhpFpmApp: "/srv/phpapp/"
 
     locationHtmlApp: "/"
     localLocationHtmlApp: "/srv/www"
@@ -33,4 +33,4 @@
     - php-fpm
     - calcFrontHtml
     - calcSumGo
-#   - calcDiffPhp
+    - calcDiffPhp

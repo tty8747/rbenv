@@ -33,7 +33,7 @@ server {
         }
         location {{ locationPhpFpmApp }} {
                 include fastcgi_params;
-                fastcgi_param SCRIPT_FILENAME {{ locallocationPhpFpmApp }};
+                fastcgi_param SCRIPT_FILENAME {{ locallocationPhpFpmApp }}/diff.php;
                 fastcgi_pass unix:/var/run/php/php{{ phpFpmVersion }}-fpm.sock;
         }
 }
