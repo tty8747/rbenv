@@ -18,7 +18,8 @@
     localLocationHtmlApp: "/srv/www"
    
     locationGoApi: "/api/sum/"
-   
+    localLocationGoApi: "/srv/goapi"
+
 #   site: goapp.aaaj.ru
 #   when: ansible_nodename == "goapp.aaaj.ru"
 #   site: go.aaaj.ru
@@ -31,5 +32,5 @@
     - geerlingguy.git
     - php-fpm
     - calcFrontHtml
-#   - calcSumGo
+    - calcSumGo
 #   - calcDiffPhp

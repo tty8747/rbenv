@@ -1,9 +1,6 @@
 ---
- - name: restart nginx
-   service: name=nginx state=restarted
+ - name: reload-daemon
+   command: systemctl daemon-reload
 
- - name: reload nginx
-   service: name=nginx state=reloaded
-
- - name: start nginx
-   service: name=nginx state=started
+ - name: start goapi
+   service: name=goapi state=started
