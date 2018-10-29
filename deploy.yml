@@ -12,9 +12,11 @@
     phpFpmListen: "/run/php/php7.0-fpm.sock"
 
     locationPhpFpmApp: "/api/diff/"
+    locallocationPhpFpmApp: "/srv/phpapp/diff.php"
 
     locationHtmlApp: "/"
     localLocationHtmlApp: "/srv/www"
+   
     locationGoApi: "/api/sum/"
    
 #   site: goapp.aaaj.ru
@@ -26,8 +28,8 @@
     - aptUpdate
     - nginx 
     - letsencrypt
-    - php-fpm
     - geerlingguy.git
+    - php-fpm
     - calcFrontHtml
 #   - calcSumGo
 #   - calcDiffPhp

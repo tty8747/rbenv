@@ -3,6 +3,7 @@
     apt:
       name=php{{ phpFpmVersion }}-fpm
       state=present
+    tag: php
 
   - name: Push config nginx with php-fpm
     template:

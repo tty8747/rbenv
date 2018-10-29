@@ -24,16 +24,16 @@ server {
 
         location ~ /\.git/  {return 404;}
 
-        location / {
-                root /srv/www/;
+        location {{ locationHtmlApp }} {
+                root {{ localLocationHtmlApp  }};
         }
-        location /api/sum/ {
+        location {{ locationGoApi }} {
                 rewrite ^/api/(.*)$ /$1 break;
                 proxy_pass http://localhost:8080;
         }
-        location /api/diff/ {
+        location {{ locationPhpFpmApp }} {
                 include fastcgi_params;
-                fastcgi_param SCRIPT_FILENAME /srv/phpapp/diff.php;
-                fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+                fastcgi_param SCRIPT_FILENAME {{ locallocationPhpFpmApp }};
+                fastcgi_pass unix:/var/run/php/php{{ phpFpmVersion }}-fpm.sock;
         }
 }
