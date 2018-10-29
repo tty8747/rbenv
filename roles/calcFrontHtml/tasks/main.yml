@@ -1,0 +1,15 @@
+---
+  - name: сreate directory {{ localLocationHtmlApp }}
+    file:
+      path={{ localLocationHtmlApp }}
+      mode=0755
+      owner=root
+      group=root
+      state=directory
+
+ - name: Clone calc-front
+    git:
+      repo: https://github.com/tty8747/calc_front.git
+      dest: {{ localLocationHtmlApp }}
+      clone: yes
+

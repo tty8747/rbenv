@@ -8,15 +8,26 @@
   vars:
     site: tty8747.devops.srwx.net
     when: ansible_nodename == "tty8747.devops.srwx.net"
-    site: goapp.aaaj.ru
-    when: ansible_nodename == "goapp.aaaj.ru"
-    site: go.aaaj.ru
-    when: ansible_nodename == "go.aaaj.ru"
+    phpFpmVersion: 7.0
+    phpFpmListen: "/run/php/php7.0-fpm.sock"
+
+    locationPhpFpmApp: "/api/diff/"
+
+    locationHtmlApp: "/"
+    localLocationHtmlApp: "/srv/www"
+    locationGoApi: "/api/sum/"
+   
+#   site: goapp.aaaj.ru
+#   when: ansible_nodename == "goapp.aaaj.ru"
+#   site: go.aaaj.ru
+#   when: ansible_nodename == "go.aaaj.ru"
+
   roles:
     - aptUpdate
-#   - nginx 
-#   - letsencrypt
-#   - php-fpm
-#   - calcFrontHtml
+    - nginx 
+    - letsencrypt
+    - php-fpm
+    - geerlingguy.git
+    - calcFrontHtml
 #   - calcSumGo
 #   - calcDiffPhp

@@ -2,7 +2,7 @@
 - name: Send slack notification
   local_action:
     module: slack
-    token: https://hooks.slack.com/services/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
+    token: services/TDQHCJWCD/BDQ6XJE5A/FD4xcapjLDPC9wyLr7UyuRTs
     msg: "Hello team! I just finished updating our production environment."
     channel: "#general"
     username: "ansible-bot"
