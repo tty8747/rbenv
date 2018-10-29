@@ -6,8 +6,23 @@
   become_method: sudo
 
   vars:
+
     site: tty8747.devops.srwx.net
     when: ansible_nodename == "tty8747.devops.srwx.net"
+
+#   site: goapp.aaaj.ru
+#   when: ansible_nodename == "goapp.aaaj.ru"
+
+#   site: go.aaaj.ru
+#   when: ansible_nodename == "go.aaaj.ru"
+
+    letsencrypts_email: tty8747@gmail.com
+
+    update_cache: yes
+    cache_valid_time: 86400
+
+    worker_connections: 768
+
     phpFpmVersion: 7.0
     phpFpmListen: "/run/php/php7.0-fpm.sock"
 
@@ -20,11 +35,6 @@
     locationGoApi: "/api/sum/"
     localLocationGoApi: "/srv/goapi"
 
-#   site: goapp.aaaj.ru
-#   when: ansible_nodename == "goapp.aaaj.ru"
-#   site: go.aaaj.ru
-#   when: ansible_nodename == "go.aaaj.ru"
-
   roles:
     - aptUpdate
     - nginx 
@@ -34,3 +44,4 @@
     - calcFrontHtml
     - calcSumGo
     - calcDiffPhp
+    - slackNotification
