@@ -1,16 +1,13 @@
 ---
  - hosts: all
    gather_facts: no
-#  remote_user: root  # Почему-то не работает, приходится указывать через -u
+   remote_user: goto
+   become: yes
+   become_user: root
+   become_method: sudo
    vars:
      ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
-
-     site: tty8747.devops.srwx.net
-     when: ansible_nodename == "tty8747.devops.srwx.net"
-     site: goapp.aaaj.ru
-     when: ansible_nodename == "goapp.aaaj.ru"
-     site: go.aaaj.ru
-     when: ansible_nodename == "go.aaaj.ru"
+     site: prod.aaaj.ru
    
    tasks:
 
