@@ -1,6 +1,6 @@
 # ansible-roles
 
-1. ansible-playbook -i inventory/prod init.yml -u goto
+1. ansible-playbook -i inventory/prod init/init.yml -u goto
 
 2. ansible-galaxy install -r requirements.yml
 
