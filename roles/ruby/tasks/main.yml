@@ -1,0 +1,98 @@
+---
+# Install dep for ruby
+ - name: 'apt | install dependencies'
+   action: 'apt pkg={{ item }}'
+   with_items:
+     - 'git-core'
+     - 'curl'
+     - 'zlib1g-dev'
+     - 'build-essential'
+     - 'libssl-dev'
+     - 'libreadline-dev'
+     - 'libyaml-dev'
+     - 'libsqlite3-dev'
+     - 'sqlite3'
+     - 'libxml2-dev'
+     - 'libxslt1-dev'
+     - 'libcurl4-openssl-dev'
+     - 'python-software-properties'
+     - 'libffi-dev'
+
+# Create an account with ssh keys
+ - name: Adding user
+   user:
+     name: '{{ username }}'
+     groups: sudo
+     shell: /bin/bash
+
+ - name: Add ssh keys to remote host
+   authorized_key:
+     user: '{{ username }}'
+     state: present
+     key: "{{ lookup('file', '{{ pub_key }}') }}"
+
+# Ruby install
+ - name: 'rbenv | clone repo'
+   git: 'repo=git://github.com/sstephenson/rbenv.git dest={{ rbenv_root }} accept_hostkey=yes'
+
+ - name: 'rbenv | check ruby-build installed'
+   command: 'test -x {{ rbenv_root }}/plugins/ruby-build'
+   register: 'plugin_installed'
+   ignore_errors: yes
+
+ - name: 'rbenv | add bin to path'
+   shell: echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> {{ home }}/.bash_profile
+   when: 'plugin_installed|failed'
+
+ - name: 'rbenv | init'
+   shell: echo 'eval "$(rbenv init -)"' >> {{ home }}/.bash_profile
+   when: 'plugin_installed|failed'
+
+ - name: 'rbenv | clone ruby-build repo'
+   git: 'repo=git://github.com/sstephenson/ruby-build.git dest={{ rbenv_root }}/plugins/ruby-build accept_hostkey=yes'
+   when: 'plugin_installed|failed'
+
+ - name: 'rbenv | ruby build'
+   shell:  echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >>{{ home }}/.bash_profile
+   when: 'plugin_installed|failed'
+
+ - name: 'rbenv | source'
+   shell: source {{ home }}/.bash_profile
+   when: 'plugin_installed|failed'
+
+ - name: 'rbenv | check ruby {{ ruby_version }} installed'
+   shell: 'RBENV_ROOT={{ rbenv_root }} PATH="$RBENV_ROOT/bin:$PATH" rbenv versions | grep {{ ruby_version }}'
+   register: 'ruby_installed'
+   ignore_errors: yes
+
+ - name: 'rbenv | install ruby {{ ruby_version }}'
+   shell: 'RBENV_ROOT={{ rbenv_root }} PATH="$RBENV_ROOT/bin:$PATH" rbenv install -v {{ ruby_version }}'
+   when: 'ruby_installed|failed'
+
+ - name: 'rbenv | set global ruby {{ ruby_version }}'
+   shell: 'RBENV_ROOT={{ rbenv_root }} PATH="$RBENV_ROOT/bin:$PATH" rbenv global {{ ruby_version }}'
+   when: 'ruby_installed|failed'
+
+ - name: 'rbenv | rehash'
+   shell: 'RBENV_ROOT={{ rbenv_root }} PATH="$RBENV_ROOT/bin:$PATH" rbenv rehash'
+   when: 'ruby_installed|failed'
+
+ - name: 'rbenv | create .gemrc'
+   lineinfile: 'dest={{ home }}/.gemrc owner={{ username }} group={{ username }} mode=0644 line="gem: --no-document" create=yes'
+   when: 'ruby_installed|failed'
+
+ - name: 'ruby | install bundler'
+   shell: 'RBENV_ROOT={{ rbenv_root }} PATH="$RBENV_ROOT/bin:$PATH" rbenv exec gem install bundler'
+   when: 'ruby_installed|failed'
+
+ - name: 'ruby | install rails'
+   shell: 'RBENV_ROOT={{ rbenv_root }} PATH="$RBENV_ROOT/bin:$PATH" rbenv exec gem install rails'
+   when: 'ruby_installed|failed'
+
+ - name: 'rbenv | rehash'
+   shell: 'RBENV_ROOT={{ rbenv_root }} PATH="$RBENV_ROOT/bin:$PATH" rbenv rehash'
+   when: 'ruby_installed|failed'
+
+ - name: 'rbenv | change owner'
+   shell: 'chown -R {{ username }}:{{ username }} {{ rbenv_root }}'
+   when: 'ruby_installed|failed'

@@ -4,4 +4,4 @@
 
 2. ansible-galaxy install -r requirements.yml
 
-3. ansible-playbook -i inventory/dev deploy.yml
+3. ansible-playbook -i inventory/prod deploy.yml

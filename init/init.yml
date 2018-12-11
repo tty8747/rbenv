@@ -8,6 +8,8 @@
    vars:
      ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
      site: prod.aaaj.ru
+     pub_key: '/home/goto/.ssh/id_rsa.pub'
+     user: 'goto'
    
    tasks:
 
@@ -19,15 +21,15 @@
 
     - name: Adding user
       user:
-        name: goto
+        name: '{{ user }}'
         groups: sudo
         shell: /bin/bash
 
     - name: Add ssh keys to remote host
       authorized_key:
-        user: goto
+        user: '{{ user }}'
         state: present
-        key: "{{ lookup('file', '/home/goto/.ssh/id_rsa.pub') }}"
+        key: "{{ lookup('file', '{{ pub_key }}' ) }}"
 
     - name: push config /etc/sudoers
       template:

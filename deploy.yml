@@ -6,17 +6,26 @@
   become_method: sudo
 
   vars:
+    rbenv:
+      env: system
+      version: v1.0.0
+      default_ruby: 2.2.3
+      rubies:
+        - version: 2.2.3
 
-    site: tty8747.devops.srwx.net
-    when: ansible_nodename == "tty8747.devops.srwx.net"
+    rbenv_users: [deploy]
 
-#   site: goapp.aaaj.ru
-#   when: ansible_nodename == "goapp.aaaj.ru"
+#   ruby_version: '2.2.3'
+    username: 'deploy'
+    home: '/home/{{ user }}'
+    pub_key: '/home/goto/.ssh/id_rsa.pub'
+    rbenv_root: '{{ home }}/.rbenv'
+    app_name: 'ror-blog'
+    application: '{{ home }}/applications/{{ app_name }}'
 
-#   site: go.aaaj.ru
-#   when: ansible_nodename == "go.aaaj.ru"
+    site: 'dev.aaaj.ru'
 
-    letsencrypts_email: tty8747@gmail.com
+    letsencrypts_email: 'tty8747@gmail.com'
 
     update_cache: yes
     cache_valid_time: 86400
@@ -41,7 +50,5 @@
     - letsencrypt
     - geerlingguy.git
     - php-fpm
-    - calcFrontHtml
-    - calcSumGo
-    - calcDiffPhp
-    - slackNotification
+    - { role: zzet.rbenv, tags: rbenv }
+#   - { role: 'ruby', tags: 'ruby' }
